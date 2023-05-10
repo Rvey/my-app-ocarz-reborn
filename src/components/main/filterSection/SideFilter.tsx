@@ -61,11 +61,17 @@ export default function SideFilter() {
 
   const [brand, setBrand] = useState({
     id: searchParams.get("brand") || "",
-    name: sessionStorage.brand && sessionStorage.brand !== undefined ? sessionStorage.brand : "",
+    name:
+      sessionStorage.brand && sessionStorage.brand !== undefined
+        ? sessionStorage.brand
+        : "",
   });
   const [model, setModel] = useState({
     id: searchParams.get("model") || "",
-    name: sessionStorage.model && sessionStorage.model !== undefined ? sessionStorage.model : "",
+    name:
+      sessionStorage.model && sessionStorage.model !== undefined
+        ? sessionStorage.model
+        : "",
   });
   const [transmission, setTransmission] = useState({
     id: searchParams.get("transmission"),

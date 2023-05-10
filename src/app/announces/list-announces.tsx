@@ -28,7 +28,7 @@ export default function ListAnnounces() {
       </div>
       <div className="col-span-4 bg-white p-4">
         <DisclaimerCard />
-        {!isLoading ? "loading" : <AnnounceSection productsData={data} />}
+        {isLoading ? "loading" : <AnnounceSection productsData={data} />}
       </div>
     </div>
   );
