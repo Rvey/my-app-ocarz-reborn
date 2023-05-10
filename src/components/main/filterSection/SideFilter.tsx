@@ -2,14 +2,15 @@
 
 import AutoComplete from "@/components/forms/AutoComplete";
 import Input from "@/components/forms/Input";
+import { checkFilter, checkPriceFilter } from "@/helpers/filterHanler";
 import getData from "@/helpers/getData";
+import getQueryClient from "@/utils/getQueryClient";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function SideFilter() {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   // ============== input data ==============
   const {
@@ -50,23 +51,21 @@ export default function SideFilter() {
   ];
 
   // ============== filter states ==============
-  const [showMore, setShowMore] = useState(true);
   const [queryBrand, setQueryBrand] = useState<string>("");
   const [queryModel, setQueryModel] = useState<string>("");
-  const [year, setYear] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<number>(0);
   const [minPrice, setMinPrice] = useState<number>(0);
-  const [queryVille, setQueryVille] = useState<string>("");
+  const [queryCity, setQueryCity] = useState<string>("");
   const [queryTransmission, setQueryTransmission] = useState<string>("");
   const [queryCarburant, setQueryCarburant] = useState<string>("");
 
   const [brand, setBrand] = useState({
-    id: searchParams.get("brand"),
-    name: sessionStorage.brand,
+    id: searchParams.get("brand") || "",
+    name: sessionStorage.brand && sessionStorage.brand !== undefined ? sessionStorage.brand : "",
   });
   const [model, setModel] = useState({
-    id: searchParams.get("model"),
-    name: sessionStorage.model,
+    id: searchParams.get("model") || "",
+    name: sessionStorage.model && sessionStorage.model !== undefined ? sessionStorage.model : "",
   });
   const [transmission, setTransmission] = useState({
     id: searchParams.get("transmission"),
@@ -76,21 +75,13 @@ export default function SideFilter() {
     id: searchParams.get("carburant"),
     name: searchParams.get("carburant"),
   });
-  const [ville, setVille] = useState({
-    id: searchParams.get("ville"),
-    name: searchParams.get("ville"),
+  const [city, setCity] = useState({
+    id: searchParams.get("city"),
+    name: sessionStorage.city === undefined ? sessionStorage.city : "",
   });
   useEffect(() => {
     refetch();
   }, [brand.id, refetch]);
-
-  const checkFilter = (filter: string | null, key: string) => {
-    if (filter || filter !== "0") {
-      return `&${key}=${filter}`;
-    } else {
-      return "";
-    }
-  };
 
   return (
     <div className="mt-5">
@@ -103,6 +94,12 @@ export default function SideFilter() {
             sessionStorage.clear();
             setModel({ id: "", name: "" });
             setBrand({ id: "", name: "" });
+            setCity({ id: "", name: "" });
+            setTransmission({ id: "", name: "" });
+            setCarburant({ id: "", name: "" });
+            setMaxPrice(0);
+            setMinPrice(0);
+            console.log(maxPrice?.toString() !== "0");
           }}
         >
           Tout Effacer (1)
@@ -141,11 +138,11 @@ export default function SideFilter() {
         title="Motorisation"
       />
       <AutoComplete
-        value={ville}
-        setValue={setVille}
-        data={[]}
-        searchQuery={queryVille}
-        setSearchQuery={setQueryVille}
+        value={city}
+        setValue={setCity}
+        data={cities}
+        searchQuery={queryCity}
+        setSearchQuery={setQueryCity}
         title="Ville"
       />
       <div className="flex justify-between p-2">
@@ -169,22 +166,24 @@ export default function SideFilter() {
       </div>
 
       <button
+        className="bg-primary text-[14px] text-white w-[150px] h-[50px]"
         onClick={() => {
           sessionStorage.setItem("brand", brand.name);
           sessionStorage.setItem("model", model.name);
+          sessionStorage.setItem("city", city.name);
+
           // check if the user has selected a brand or a model or transmission or carburant and add it to the url
           const brandFilter = checkFilter(brand.id, "brand");
           const modelFilter = checkFilter(model.id, "model");
-          const maxPriceFilter = checkFilter(maxPrice?.toString(), "price[lt]");
-          const minPriceFilter = checkFilter(minPrice?.toString(), "price[gt]");
+          const PriceFilter = checkPriceFilter(minPrice, maxPrice);
+          const CityFilter = checkFilter(city.id, "city");
           const transmissionFilter = checkFilter(
             transmission.name,
             "transmission"
           );
-          const carburantFilter = checkFilter(carburant.name, "carburant");
-          
+          const carburantFilter = checkFilter(carburant.name, "fuel");
           router.push(
-            `/announces?${brandFilter}${modelFilter}${transmissionFilter}${carburantFilter}${maxPriceFilter}${minPriceFilter}}`
+            `/announces?${brandFilter}${modelFilter}${transmissionFilter}${carburantFilter}${PriceFilter}${CityFilter}`
           );
         }}
       >

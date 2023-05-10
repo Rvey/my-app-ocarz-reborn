@@ -2,7 +2,6 @@ import DisclaimerCard from "./adv/Disclaimer";
 import SortCard from "./adv/SortCard";
 import CreateAlert from "./card/newAlert";
 import Pagination from "./card/pagination";
-import ColoredLine from "./card/ColoredLine";
 import Image from "next/image";
 import Link from "next/link";
 import AnnounceCard from "./card/AnnounceCard";

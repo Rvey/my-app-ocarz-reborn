@@ -10,7 +10,7 @@ const  CreateAlert = () => {
         <p>Creer une alerte et soyez prevenu des aue des voitures correspondantes a vos recherches sont ajoutees !</p>
         </div>
         <div className='mt-6'>
-        <button className='bg-primary text-[14px] text-white w-[150px] h-[50px] '>Creer une alerte</button>
+        <button className='bg-primary text-[14px] text-white w-[150px] h-[50px]'>Creer une alerte</button>
         </div>
     </div>
   )

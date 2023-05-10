@@ -31,7 +31,7 @@ export default function AnnounceCard({ product }: { product: any }) {
             <hr className="border-y-1 border-gray-300 border-solid border-primary-normal w-[175px] h-[1px]" />
             <div>
               <p className="text-[10px] font-bold italic py-2">
-                Diesel | {product?.mileage} Km | {product?.transmission}{" "}
+                {product?.fuel} | {product?.mileage} Km | {product?.transmission}{" "}
               </p>
             </div>
             <hr className="border-y-1 border-gray-300 border-solid border-primary-normal w-[175px] h-[1px]" />

@@ -18,13 +18,23 @@ type AutoCompleteProps = {
 export default function AutoComplete({
   value,
   setValue,
-  data,
+  data : filteredData,
   searchQuery,
   setSearchQuery,
   title,
 }: AutoCompleteProps) {
+  // const filteredData =
+  //   searchQuery === ""
+  //     ? data
+  //     : data?.filter((el) =>
+  //         el.name
+  //           .toLowerCase()
+  //           .replace(/\s+/g, "")
+  //           .includes(searchQuery.toLowerCase().replace(/\s+/g, ""))
+  //       );
+
   return (
-    <div className="flex flex-wrap justify-between p-2 ">
+    <div className="flex flex-wrap justify-between p-2">
       <div className="w-[7rem]">
         <p className="mt-2 text-[14px] font-bold text-secondary">{title}</p>
       </div>
@@ -52,12 +62,12 @@ export default function AutoComplete({
               afterLeave={() => setSearchQuery("")}
             >
               <Combobox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto bg-primary-light py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {data?.length === 0 && searchQuery !== "" ? (
+                {filteredData?.length === 0 && searchQuery !== "" ? (
                   <div className="text-gray-700 relative cursor-default select-none px-4 py-2">
                     Nothing found.
                   </div>
                 ) : (
-                  data?.map((el: any) => (
+                  filteredData?.map((el: any) => (
                     <Combobox.Option
                       key={el.id}
                       value={el.name}

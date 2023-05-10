@@ -11,6 +11,8 @@ export default async function Hydation() {
     queryKey: ["announces"],
     queryFn: () => getData("products"),
   });
+  queryClient.invalidateQueries({ queryKey: ['models'] })
+
 
   const dehydratedState = dehydrate(queryClient);
   return (
