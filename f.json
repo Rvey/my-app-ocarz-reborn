@@ -1,0 +1,148 @@
+[
+  {
+    "@id": "/point_of_sales/7",
+    "@type": "PointOfSale",
+    "name": "Samsung El Qods",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": ["/users/65", "/users/67"],
+    "partner": "Ashiama",
+    "address": "Mag N°939 ET 938 , Bd El Qods, Ain chock 20460, Casablanca",
+    "lat": "33.587314",
+    "long": "-7.644319",
+    "isAvailableToChatBot": true
+  },
+  {
+    "@id": "/point_of_sales/8",
+    "@type": "PointOfSale",
+    "name": "Samsung Marina",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": ["/users/2", "/users/54", "/users/51", "/users/59"],
+    "partner": "Ashiama",
+    "address": "Mag C1 071 Centre Commercial Marina Shopping, Bd Des Almohades, Casablanca",
+    "lat": "33.704823",
+    "long": "-7.394855",
+    "isAvailableToChatBot": true
+  },
+  {
+    "@id": "/point_of_sales/9",
+    "@type": "PointOfSale",
+    "name": "Samsung Racine",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": ["/users/52", "/users/53"],
+    "partner": "Amtel",
+    "address": "Mag N°53, Rue Ali Abderrazak - Ex Mirabeau, Quartier Racine, Casablanca",
+    "lat": "34.003993",
+    "long": "-6.845457",
+    "isAvailableToChatBot": true
+  },
+  {
+    "@id": "/point_of_sales/14",
+    "@type": "PointOfSale",
+    "name": "Samsung Tachfine Center",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": ["/users/64", "/users/63"],
+    "partner": "Mobile 2",
+    "address": "Bd Ibn Tachfine, Etage C1, Tachfine Center 20320, Casablanca",
+    "lat": "33.532055",
+    "long": "-7.616500",
+    "isAvailableToChatBot": true
+  },
+  {
+    "@id": "/point_of_sales/16",
+    "@type": "PointOfSale",
+    "name": "Samsung Morocco Mall",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": [
+      "/users/48",
+      "/users/50",
+      "/users/35",
+      "/users/49",
+      "/users/30",
+      "/users/45"
+    ],
+    "partner": "Mobile Up",
+    "address": "Mag L1.079 Rdc, Centre Commercial Morocco Mall, Boulevard De Biarritz, Casablanca",
+    "lat": "33.606287",
+    "long": "-7.619985",
+    "isAvailableToChatBot": true
+  },
+  {
+    "@id": "/point_of_sales/20",
+    "@type": "PointOfSale",
+    "name": "Samsung Aeria Mall",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": ["/users/74"],
+    "address": "Lot 37 Angle bd Abdellah Cherif et bd L’aéropostale",
+    "lat": "33,562",
+    "long": " -7,6648",
+    "isAvailableToChatBot": true
+  },
+  {
+    "@id": "/point_of_sales/21",
+    "@type": "PointOfSale",
+    "name": "Samsung derb ghallef",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": ["/users/80"],
+    "address": "Mag N°680, Souk Najd, Casablanca",
+    "lat": " 31.792306",
+    "long": "-7.080168",
+    "isAvailableToChatBot": true
+  },
+  {
+    "@id": "/point_of_sales/22",
+    "@type": "PointOfSale",
+    "name": "Samsung Aeria Mall",
+    "city": {
+      "@id": "/cities/94",
+      "@type": "City",
+      "name": "Casablanca",
+      "slug": "casablanca",
+      "region": "/regions/11"
+    },
+    "users": [],
+    "address": "H87P+2R6 Ancienne aérogare, Casablanca 20250",
+    "isAvailableToChatBot": true
+  }
+]
