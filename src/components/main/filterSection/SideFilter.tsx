@@ -1,9 +1,10 @@
 "use client";
 
 import AutoComplete from "@/components/forms/AutoComplete";
+import AutoCompleteV2 from "@/components/forms/AutoCompleteV2";
 import Input from "@/components/forms/Input";
 import { checkFilter, checkPriceFilter } from "@/helpers/filterHanler";
-import getData from "@/helpers/getData";
+import getData, { getDataById } from "@/helpers/getData";
 import getQueryClient from "@/utils/getQueryClient";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -12,16 +13,20 @@ import React, { useEffect, useState } from "react";
 export default function SideFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [model, setModel] = useState(searchParams.get("model") || "");
+  const [brand, setBrand] = useState(searchParams.get("brand") || "");
+  const [city, setCity] = useState(searchParams.get("city") || "");
   // ============== input data ==============
   const {
     data: brands,
-    isLoading,
+    isLoading: isLoadingBrands,
     isFetching,
     error,
   } = useQuery({
     queryKey: ["brands"],
     queryFn: () => getData(`brands`),
   });
+
   const {
     data: cities,
     isLoading: isLoadingCities,
@@ -31,6 +36,7 @@ export default function SideFilter() {
     queryKey: ["cities"],
     queryFn: () => getData(`cities`),
   });
+
   const {
     data: models,
     isLoading: isLoadingModels,
@@ -39,7 +45,7 @@ export default function SideFilter() {
     refetch,
   } = useQuery({
     queryKey: ["models"],
-    queryFn: () => getData(`models?brand=${brand.id}`),
+    queryFn: () => getData(`models?brand=${brand}`),
   });
   const dataTransmission = [
     { id: "manuelle", name: "manuelle" },
@@ -51,43 +57,20 @@ export default function SideFilter() {
   ];
 
   // ============== filter states ==============
-  const [queryBrand, setQueryBrand] = useState<string>("");
-  const [queryModel, setQueryModel] = useState<string>("");
+
   const [maxPrice, setMaxPrice] = useState<number>(0);
   const [minPrice, setMinPrice] = useState<number>(0);
-  const [queryCity, setQueryCity] = useState<string>("");
-  const [queryTransmission, setQueryTransmission] = useState<string>("");
-  const [queryCarburant, setQueryCarburant] = useState<string>("");
+  const [transmission, setTransmission] = useState(
+    searchParams.get("transmission") || ""
+  );
+  const [carburant, setCarburant] = useState(
+    searchParams.get("carburant") || ""
+  );
 
-  const [brand, setBrand] = useState({
-    id: searchParams.get("brand") || "",
-    name:
-      sessionStorage.brand && sessionStorage.brand !== undefined
-        ? sessionStorage.brand
-        : "",
-  });
-  const [model, setModel] = useState({
-    id: searchParams.get("model") || "",
-    name:
-      sessionStorage.model && sessionStorage.model !== undefined
-        ? sessionStorage.model
-        : "",
-  });
-  const [transmission, setTransmission] = useState({
-    id: searchParams.get("transmission"),
-    name: searchParams.get("transmission"),
-  });
-  const [carburant, setCarburant] = useState({
-    id: searchParams.get("carburant"),
-    name: searchParams.get("carburant"),
-  });
-  const [city, setCity] = useState({
-    id: searchParams.get("city"),
-    name: sessionStorage.city === undefined ? sessionStorage.city : "",
-  });
+  // ============== filter handlers ==============
   useEffect(() => {
     refetch();
-  }, [brand.id, refetch]);
+  }, [brand, refetch]);
 
   return (
     <div className="mt-5">
@@ -96,62 +79,73 @@ export default function SideFilter() {
         <button
           className="text-[14px] font-bold text-red"
           onClick={() => {
-            router.push("/announces");
-            sessionStorage.clear();
-            setModel({ id: "", name: "" });
-            setBrand({ id: "", name: "" });
-            setCity({ id: "", name: "" });
-            setTransmission({ id: "", name: "" });
-            setCarburant({ id: "", name: "" });
+            setModel("");
+            setBrand("");
+            setCity("");
+            setTransmission("");
+            setCarburant("");
             setMaxPrice(0);
             setMinPrice(0);
-            console.log(maxPrice?.toString() !== "0");
+            router.push("/announces");
           }}
         >
-          Tout Effacer (1)
+          Tout Effacer ()
         </button>
       </div>
-      <AutoComplete
-        value={brand}
-        setValue={setBrand}
+      <button
+        className="bg-primary text-[14px] text-white w-[150px] h-[50px]"
+        onClick={() => {
+          // check if the user has selected a brand or a model or transmission or carburant and add it to the url
+          const brandFilter = checkFilter(brand, "brand");
+          const modelFilter = checkFilter(model, "model");
+          const PriceFilter = checkPriceFilter(minPrice, maxPrice);
+          const CityFilter = checkFilter(city, "city");
+          const transmissionFilter = checkFilter(transmission, "transmission");
+          const carburantFilter = checkFilter(carburant, "fuel");
+          router.push(
+            `/announces?${brandFilter}${modelFilter}${transmissionFilter}${carburantFilter}${PriceFilter}${CityFilter}`
+          );
+        }}
+      >
+        search
+      </button>
+      <AutoCompleteV2
         data={brands}
-        searchQuery={queryBrand}
-        setSearchQuery={setQueryBrand}
         title="Marque"
+        selectedOption={setBrand}
+        setSelectedOption={setBrand}
+        param={searchParams.get("brand")}
       />
-      <AutoComplete
-        value={model}
-        setValue={setModel}
+      <AutoCompleteV2
         data={models}
-        searchQuery={queryModel}
-        setSearchQuery={setQueryModel}
         title="Modèle"
+        selectedOption={model}
+        setSelectedOption={setModel}
+        param={searchParams.get("model")}
       />
-      <AutoComplete
-        value={transmission}
-        setValue={setTransmission}
-        data={dataTransmission}
-        searchQuery={queryTransmission}
-        setSearchQuery={setQueryTransmission}
-        title="Transmission"
-      />
-      <AutoComplete
-        value={carburant}
-        setValue={setCarburant}
-        data={dataCarburant}
-        searchQuery={queryCarburant}
-        setSearchQuery={setQueryCarburant}
-        title="Motorisation"
-      />
-      <AutoComplete
-        value={city}
-        setValue={setCity}
+      <AutoCompleteV2
         data={cities}
-        searchQuery={queryCity}
-        setSearchQuery={setQueryCity}
         title="Ville"
+        selectedOption={city}
+        setSelectedOption={setCity}
+        param={searchParams.get("city")}
       />
-      <div className="flex justify-between p-2">
+      <AutoCompleteV2
+        data={dataCarburant}
+        title="Motorisation"
+        selectedOption={carburant}
+        setSelectedOption={setCarburant}
+        param={searchParams.get("fuel")}
+      />
+      <AutoCompleteV2
+        data={dataTransmission}
+        title="Transmission"
+        selectedOption={transmission}
+        setSelectedOption={setTransmission}
+        param={searchParams.get("transmission")}
+      />
+
+      <div className="flex justify-between p-2 flex-col">
         <p className="mt-2 text-[14px] font-bold text-secondary">Price</p>
         <div className="flex flex-col ">
           <Input
@@ -170,31 +164,6 @@ export default function SideFilter() {
           />
         </div>
       </div>
-
-      <button
-        className="bg-primary text-[14px] text-white w-[150px] h-[50px]"
-        onClick={() => {
-          sessionStorage.setItem("brand", brand.name);
-          sessionStorage.setItem("model", model.name);
-          sessionStorage.setItem("city", city.name);
-
-          // check if the user has selected a brand or a model or transmission or carburant and add it to the url
-          const brandFilter = checkFilter(brand.id, "brand");
-          const modelFilter = checkFilter(model.id, "model");
-          const PriceFilter = checkPriceFilter(minPrice, maxPrice);
-          const CityFilter = checkFilter(city.id, "city");
-          const transmissionFilter = checkFilter(
-            transmission.name,
-            "transmission"
-          );
-          const carburantFilter = checkFilter(carburant.name, "fuel");
-          router.push(
-            `/announces?${brandFilter}${modelFilter}${transmissionFilter}${carburantFilter}${PriceFilter}${CityFilter}`
-          );
-        }}
-      >
-        search
-      </button>
     </div>
   );
 }

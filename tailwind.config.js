@@ -7,6 +7,7 @@ module.exports = {
   ],
   theme: {
     colors: {
+      ...require('tailwindcss/colors'),
       transparent: 'transparent',
       current: 'currentColor',
       'black': '#000000',

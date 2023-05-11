@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dayjs from "dayjs";
-import React, { Fragment, Suspense } from "react";
+import React from "react";
 import { myFont } from "@/app/layout";
 
 export default function AnnounceCard({ product }: { product: any }) {
@@ -14,6 +14,8 @@ export default function AnnounceCard({ product }: { product: any }) {
           src={product?.images["0"]?.contentUrl}
           fill={true}
           alt=""
+          priority={true}
+
         />
       </div>
       <div className="grid grid-cols-10 gap-2">
@@ -56,6 +58,7 @@ export default function AnnounceCard({ product }: { product: any }) {
                   src={product?.images["0"]?.contentUrl}
                   fill={true}
                   alt=""
+                  priority={false}
                 />
               </div>
             </div>
@@ -66,6 +69,8 @@ export default function AnnounceCard({ product }: { product: any }) {
                   src={product?.images["0"]?.contentUrl}
                   fill={true}
                   alt=""
+                  priority={false}
+
                 />
               </div>
             </div>
@@ -76,6 +81,8 @@ export default function AnnounceCard({ product }: { product: any }) {
                   src={product?.images["0"]?.contentUrl}
                   fill={true}
                   alt=""
+                  priority={false}
+
                 />
               </div>
             </div>

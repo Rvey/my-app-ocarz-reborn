@@ -1,57 +1,70 @@
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import React from "react";
+import SpinnerLoader from "../shared/SpinnerLoader";
+import { useSearchParams } from "next/navigation";
 
 type AutoCompleteProps = {
-  value: {
-    id: string | any;
-    name: string | any;
-  };
-  setValue: React.Dispatch<React.SetStateAction<{ id: any; name: any }>>;
+  value: string | any;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
   data: any;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   title: string;
+  isLoading?: boolean;
 };
 
 export default function AutoComplete({
   value,
   setValue,
-  data : filteredData,
+  data,
+  isLoading,
   searchQuery,
   setSearchQuery,
   title,
 }: AutoCompleteProps) {
-  // const filteredData =
-  //   searchQuery === ""
-  //     ? data
-  //     : data?.filter((el) =>
-  //         el.name
-  //           .toLowerCase()
-  //           .replace(/\s+/g, "")
-  //           .includes(searchQuery.toLowerCase().replace(/\s+/g, ""))
-  //       );
+  const filteredData =
+    searchQuery === ""
+      ? data
+      : data?.filter((el: any) =>
+          el.name
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .includes(searchQuery.toLowerCase().replace(/\s+/g, ""))
+        );
 
+        const searchParams = useSearchParams();
+  const selectedBrand = data?.find(
+    (item: any) => item["@id"] === searchParams.get("brand")
+  );
   return (
     <div className="flex flex-wrap justify-between p-2">
       <div className="w-[7rem]">
         <p className="mt-2 text-[14px] font-bold text-secondary">{title}</p>
       </div>
       <div className="w-[12rem]">
-        <Combobox value={value.name}>
+        <Combobox defaultValue={selectedBrand?.name} disabled={isLoading}>
           <div className="relative mt-1">
-            <div className="relative w-full cursor-default overflow-hidden border-[1px] border-black bg-primary-light text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-normal focus-visible:ring-opacity-35 focus-visible:ring-offset-2 sm:text-sm">
+            <div className="relative w-full cursor-default overflow-hidden bg-primary-light text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-normal focus-visible:ring-opacity-35 focus-visible:ring-offset-2 sm:text-sm">
               <Combobox.Input
-                className="text-gray-900 w-full border-none bg-primary-light py-2 pl-3 pr-10 text-sm leading-5 focus:outline-none  focus-visible:ring-2 focus-visible:ring-primary-normal focus-visible:ring-opacity-35 focus-visible:ring-offset-2"
+                className={`text-gray-900 w-full border-[1px] border-primary-normal py-2 pl-3 pr-10 text-sm leading-5 focus:outline-none  focus-visible:ring-2 focus-visible:ring-primary-normal focus-visible:ring-opacity-35 focus-visible:ring-offset-2 ${
+                  isLoading
+                    ? "bg-white text-secondary-light border-primary-normal"
+                    : "bg-primary-light"
+                }`}
                 displayValue={(brand: any) => brand}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon
-                  className="text-gray-400 h-5 w-5"
-                  aria-hidden="true"
-                />
+                {isLoading ? (
+                  <SpinnerLoader />
+                ) : (
+                  <ChevronUpDownIcon
+                    className="text-gray-400 h-5 w-5"
+                    aria-hidden="true"
+                  />
+                )}
               </Combobox.Button>
             </div>
             <Transition
@@ -72,10 +85,7 @@ export default function AutoComplete({
                       key={el.id}
                       value={el.name}
                       onClick={() => {
-                        setValue({
-                          id: el["@id"],
-                          name: el.name,
-                        });
+                        setValue(el["@id"]);
                         setSearchQuery("");
                       }}
                       className={({ active, selected }) =>
