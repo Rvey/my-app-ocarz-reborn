@@ -73,7 +73,7 @@ export default function SideFilter() {
   }, [brand, refetch]);
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 p-2">
       <div className="flex justify-between p-2 ">
         <h2 className="text-3xl font-bold">FILTERS</h2>
         <button
@@ -109,6 +109,7 @@ export default function SideFilter() {
       >
         search
       </button>
+      <div className="flex flex-col gap-4 divide-y">
       <AutoCompleteV2
         data={brands}
         title="Marque"
@@ -145,7 +146,7 @@ export default function SideFilter() {
         param={searchParams.get("transmission")}
       />
 
-      <div className="flex justify-between p-2 flex-col">
+      <div className="flex justify-between flex-col">
         <p className="mt-2 text-[14px] font-bold text-secondary">Price</p>
         <div className="flex flex-col ">
           <Input
@@ -163,6 +164,7 @@ export default function SideFilter() {
             placeholder="Max"
           />
         </div>
+      </div>
       </div>
     </div>
   );

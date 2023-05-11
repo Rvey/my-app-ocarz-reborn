@@ -10,7 +10,7 @@ import { Fragment } from "react";
 export default function AnnounceSection({ productsData }: any) {
   return (
     <div className="mb-6">
-      <div className="my-5 flex flex-wrap gap-3 justify-center">
+      <div className="flex flex-wrap gap-3">
         {productsData?.map((product: any) => (
           <Fragment key={product.id}>
             <AnnounceCard product={product} />

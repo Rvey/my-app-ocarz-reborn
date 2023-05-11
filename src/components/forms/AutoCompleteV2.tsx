@@ -8,12 +8,14 @@ type Props = {
   setSelectedOption: (value: any) => void;
   param: string | number | null | undefined;
   title?: string;
+  placeholder?: string;
 };
 export default function AutoCompleteV2({
   data,
   setSelectedOption,
   param,
-  title = "marque",
+  title,
+  placeholder,
 }: any) {
   let selected = data?.find((item: any) => item.id == param);
 
@@ -22,11 +24,11 @@ export default function AutoCompleteV2({
       ...styles,
       backgroundColor: "transparent",
       borderRadius: "0",
-      margin: "4px",
+      margin: "0px",
       fontSize: "12px",
       padding: "5px",
     }),
-    option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
+    option: (styles: any, { data, isDisabled, isSelected }: any) => {
       return {
         ...styles,
         color: !isSelected ? "#000" : "#fff",
@@ -44,9 +46,9 @@ export default function AutoCompleteV2({
   };
   return (
     <>
-      <div className="flex flex-wrap justify-between p-2">
+      <div className="flex flex-wrap justify-between">
         <div className="w-[7rem]">
-          <p className="mt-2 font-bold text-secondary">{title}</p>
+          {title && <p className="font-bold text-secondary mt-2">{title}</p>}
         </div>
         <div className="w-full">
           {data ? (
@@ -55,9 +57,10 @@ export default function AutoCompleteV2({
               styles={styleConfig}
               classNamePrefix="react-select"
               defaultValue={{
-                label: selected?.name,
-                value: selected?.id,
+                label: selected?.name ? selected?.name : placeholder,
+                value: selected?.id ? selected?.id : "",
               }}
+              placeholder={placeholder}
               isDisabled={false}
               isLoading={false}
               isClearable
