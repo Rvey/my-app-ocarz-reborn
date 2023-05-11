@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes rollout {
+  0% {
+    opacity: 0;
+
+    transition: 200ms opacity ease-in-out;
+  }
+  100% {
+    opacity: 1;
+
+    transform: none;
+  }
+}
+
+.anime-enter-active {
+  animation: rollout 0.4s;
+}
