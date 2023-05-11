@@ -11,7 +11,6 @@ const Pagination = (totalProduct) => {
       listOfNumber.push(index);
     }
   }
-  console.log(listOfNumber);
 
   return (
     <div className="flex justify-center justify-items-center ">

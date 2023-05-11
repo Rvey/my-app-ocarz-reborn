@@ -3,6 +3,8 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import React from "react";
 import { myFont } from "@/app/layout";
+import { numberFormatter } from "@/helpers/numberFormatter";
+import { Str } from "@supercharge/strings/dist";
 
 export default function AnnounceCard({ product }: { product: any }) {
   const date = dayjs(product?.dateCreated).format("DD/MM/YYYY");
@@ -21,27 +23,27 @@ export default function AnnounceCard({ product }: { product: any }) {
       <div className="grid grid-cols-10 gap-2">
         <div className="col-span-7 px-2 pt-4 h-full flex flex-col justify-between w-[220px]">
           <div>
-            <h1 className="mb-[10px] text-[14px] font-bold break-all">
-              <Link href={`${product["@id"]}`}>{product?.title}</Link>
+            <h1 className="text-[14px] font-bold break-all h-12">
+              <Link href={`${product["@id"]}`}>{Str(product?.title).limit(50, '...').get()}</Link>
               <p className="text-[12px] font-bold">{product?.engine}</p>
             </h1>
           </div>
-          <hr className="border-y-1 border-gray-300 border-solid border-primary-normal " />
+          <hr className="border-y-1 border-solid border-primary-normal " />
           <div>
             <p className="text-[10px] font-bold italic">
               {product?.fuel} | {product?.mileage} Km |{product?.transmission}
             </p>
           </div>
-          <hr className="border-y-1 border-gray-300 border-solid border-primary-normal" />
+          <hr className="border-y-1 border-solid border-primary-normal" />
           <div className="flex flex-col">
             <div className="text-sm font-bold relative top-2">Prix</div>
             <div >
-              <span className={`text-3xl text-primary ${myFont.className}`}>{product?.price},</span>
-              <span className={`text-primary text-2xl ${myFont.className}`}>00</span>
-              <span className={` relative bottom-5 right-8 font-bold text-md`}>dhs</span>
+              <span className={`text-2xl text-primary ${myFont.className}`}>{numberFormatter(product?.price)},</span>
+              <span className={`text-primary text-xl ${myFont.className}`}>00</span>
+              <span className={` relative bottom-5 right-7 font-bold text-sm`}>dhs</span>
             </div>
           </div>
-          <hr className="border-y-1 border-gray-300 border-solid border-primary-normal " />
+          <hr className="border-y-1 border-solid border-primary-normal " />
           <div>
             <p className="text-[9px] font-bold text-[#999999] py-2">
               Réf. : <strong className="text-black">YY17NHM</strong> Le

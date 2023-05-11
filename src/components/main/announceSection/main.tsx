@@ -10,7 +10,7 @@ import { Fragment } from "react";
 export default function AnnounceSection({ productsData }: any) {
   return (
     <div className="mb-6">
-      <div className="my-5 flex flex-wrap gap-1 justify-between justify-items-center ">
+      <div className="my-5 flex flex-wrap gap-3 justify-center">
         {productsData?.map((product: any) => (
           <Fragment key={product.id}>
             <AnnounceCard product={product} />
@@ -21,7 +21,7 @@ export default function AnnounceSection({ productsData }: any) {
         {/* <Pagination totalProduct={totalProduct}/> */}
       </div>
 
-      <div className="my-5 me-6 ms-4">
+      <div className="my-5">
         <CreateAlert />
       </div>
     </div>
