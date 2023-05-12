@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-export default function SideFilter() {
+export default function SideFilter({ page }: { page: number }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [model, setModel] = useState(searchParams.get("model") || "");
@@ -103,68 +103,68 @@ export default function SideFilter() {
           const transmissionFilter = checkFilter(transmission, "transmission");
           const carburantFilter = checkFilter(carburant, "fuel");
           router.push(
-            `/announces?${brandFilter}${modelFilter}${transmissionFilter}${carburantFilter}${PriceFilter}${CityFilter}`
+            `/announces?p=${page}${brandFilter}${modelFilter}${transmissionFilter}${carburantFilter}${PriceFilter}${CityFilter}`
           );
         }}
       >
         search
       </button>
       <div className="flex flex-col gap-4 divide-y">
-      <AutoCompleteV2
-        data={brands}
-        title="Marque"
-        selectedOption={setBrand}
-        setSelectedOption={setBrand}
-        param={searchParams.get("brand")}
-      />
-      <AutoCompleteV2
-        data={models}
-        title="Modèle"
-        selectedOption={model}
-        setSelectedOption={setModel}
-        param={searchParams.get("model")}
-      />
-      <AutoCompleteV2
-        data={cities}
-        title="Ville"
-        selectedOption={city}
-        setSelectedOption={setCity}
-        param={searchParams.get("city")}
-      />
-      <AutoCompleteV2
-        data={dataCarburant}
-        title="Motorisation"
-        selectedOption={carburant}
-        setSelectedOption={setCarburant}
-        param={searchParams.get("fuel")}
-      />
-      <AutoCompleteV2
-        data={dataTransmission}
-        title="Transmission"
-        selectedOption={transmission}
-        setSelectedOption={setTransmission}
-        param={searchParams.get("transmission")}
-      />
+        <AutoCompleteV2
+          data={brands}
+          title="Marque"
+          selectedOption={setBrand}
+          setSelectedOption={setBrand}
+          param={searchParams.get("brand")}
+        />
+        <AutoCompleteV2
+          data={models}
+          title="Modèle"
+          selectedOption={model}
+          setSelectedOption={setModel}
+          param={searchParams.get("model")}
+        />
+        <AutoCompleteV2
+          data={cities}
+          title="Ville"
+          selectedOption={city}
+          setSelectedOption={setCity}
+          param={searchParams.get("city")}
+        />
+        <AutoCompleteV2
+          data={dataCarburant}
+          title="Motorisation"
+          selectedOption={carburant}
+          setSelectedOption={setCarburant}
+          param={searchParams.get("fuel")}
+        />
+        <AutoCompleteV2
+          data={dataTransmission}
+          title="Transmission"
+          selectedOption={transmission}
+          setSelectedOption={setTransmission}
+          param={searchParams.get("transmission")}
+        />
 
-      <div className="flex justify-between flex-col">
-        <p className="mt-2 text-[14px] font-bold text-secondary">Price</p>
-        <div className="flex flex-col ">
-          <Input
-            title="Min"
-            type="number"
-            setInputValue={setMinPrice}
-            value={minPrice}
-            placeholder="Min"
-          />
-          <Input
-            title="Max"
-            type="number"
-            setInputValue={setMaxPrice}
-            value={maxPrice}
-            placeholder="Max"
-          />
+        <div className="flex justify-between flex-col">
+          {/* <p className="mt-2 text-[14px] font-bold text-secondary">Price</p> */}
+          <div className="flex flex-col ">
+            <Input
+              title="Min Price"
+              type="number"
+              setInputValue={setMinPrice}
+              value={minPrice}
+              placeholder="Min"
+            />
+            <Input
+              title="Max Price"
+              type="number"
+              setInputValue={setMaxPrice}
+              value={maxPrice}
+              placeholder="Max"
+            />
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
